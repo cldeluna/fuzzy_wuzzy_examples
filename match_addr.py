@@ -41,21 +41,19 @@ def get_series_match(row_val, args=[]):
     The function iterates over the provided series in args and looks for a fuzzy match with the provided row_val
     If a token sort match is found greater than or equal to a score of 50 that match value is returned 
     """
-
     match_value = ''
-    stdout_details = False
+    stdout_details = True
     # print(f"args is {args} \n len of args is {len(args)}")
 
     for s in args:
         if stdout_details:
-            print(f"\tComparing row value {row_val} with series value {s}")
+            print(f">>>>>>>>>>>>> Comparing row value {row_val} with additional detail series value {s}\n")
         if re.search(s, row_val , re.IGNORECASE):
             if stdout_details:
                 print(f"\tExact Match Found for row value {row_val} with series value {s}!")
             match_value = s
             # You found a match, break out of the for loop
             break
-
         # Assuming and exact match failed, proceed with the basic fuzzy wuzzy comparisons
         ratio = fuzz.ratio(s.lower(), row_val.lower())
         pratio = fuzz.partial_ratio(s.lower(), row_val.lower())
@@ -63,30 +61,27 @@ def get_series_match(row_val, args=[]):
         if stdout_details:
             print(f"\t\tFuzzy Ratio: \t{ratio}")
             print(f"\t\tFuzzy Partial Ratio: \t{pratio}")
-            print(f"\t\tFuzzy Token Sort Ratio: \t{token_sort_ratio} of type {type(token_sort_ratio)}")
+            print(f"\t\tFuzzy Token Sort Ratio: \t{token_sort_ratio} of type {type(token_sort_ratio)}\n")
 
         if token_sort_ratio >= 50:
             if stdout_details:
                 print(f"\n\tFuzzy Match Found for row: \n\t\t{row_val} \n\twith series value:\n\t\t{s} \n\twith Fuzzy Token Sort Ratio of {token_sort_ratio}!")
             match_value = s
             # You found a match, break out of the for loop
-            break
-
+            # break
     if not match_value:
         print(f"\n\tNo match found for {s}")
         match_value = "No match found"
     else:
-        print(match_value)
+        print(f"Match Value is: {match_value}")
 
     return match_value
-
-
 
 
 def main():
 
     # Set a variable to enable print statements
-    stdout_details = True
+    stdout_details = False
 
     # Create a Data Frame from the Source Excel File
     df_src = df_from_excel(arguments.source_file)
@@ -120,7 +115,6 @@ def main():
     # The suffix option (default is suffixes=('_x', '_y')) will apply the suffix you provde so you the data frame origin of any duplicat columns
     # df_merged = pd.merge(df_src, df_det[['Address','Complex Name','Postal Code', 'State_Province', 'URL']], left_on="Full_Address", right_on="Address", how="left", suffixes=('_src', '_det'))
     df_merged = pd.merge(df_src, df_det, left_on="Full_Address", right_on="Address", how="left", suffixes=('_src', '_det'))
-    
     #
     if stdout_details:
         # Set the display options so that all columns print
@@ -140,6 +134,7 @@ def main():
     print(f"\nJSON file {all_data_fn}.json")
     print(f"\nExcel file {all_data_fn}.xlsx")
     print(f"\nSAVED in: {cwd}\n")
+
 
 # Standard call to the main() function.
 if __name__ == '__main__':
