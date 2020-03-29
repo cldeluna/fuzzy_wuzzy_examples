@@ -35,59 +35,12 @@ def df_from_excel(path):
     return(data_frame)
 
 
-def series_compare(series1, series2, s1_desc="Series 1", s2_desc="Series 2", stdout_details=False):
-    """
-    Compare two Pandas Series
-    :param series1:  First Pandas Series
-    :param series2:  Second Pandas Series with additional details
-    :param s1_desc:  Description of first series
-    :param s2_desc:  Description of second series
-    :param stdout_details:  Print additional debug information to stdout
-    :return:
-    """
-
-    print(f"\n\t---------------------------------------------------------------")
-    print(f"\n\t--------------   SERIES COMPARE FUNCTION   --------------------")
-    print(f"\n\t---------------------------------------------------------------")
-    print(f"\t--- Pandas {s1_desc} \n{series1}\n")
-    print(f"\t--- Pandas {s2_desc} \n{series2}\n")
-
-    for s in series1:
-        print(f"\n\t---------------------------------------------------------------")
-        print(f"\t{s}")
-        # Set a boolean to determine if a match was found withing the loops
-        # Used to print a final message
-        match = False
-        for d in series2:
-            print(f"\tComparing {s1_desc} {s} with {s2_desc} {d}")
-            if re.search(s, d, re.IGNORECASE):
-                print(f"\tExact Match Found for {s1_desc} {s} in {s2_desc} {d}!")
-                match = True
-                # You found a match, break out of the for loop
-                break
-
-            # Assuming and exact match failed, proceed with the basic fuzzy wuzzy comparisons
-            ratio = fuzz.ratio(s.lower(), d.lower())
-            pratio = fuzz.partial_ratio(s.lower(), d.lower())
-            token_sort_ratio = fuzz.token_sort_ratio(s.lower(), d.lower())
-            if stdout_details:
-                print(f"\t\tFuzzy Ratio: \t{ratio}")
-                print(f"\t\tFuzzy Partial Ratio: \t{pratio}")
-                print(f"\t\tFuzzy Token Sort Ratio: \t{token_sort_ratio} of type {type(token_sort_ratio)}")
-
-            if token_sort_ratio > 55:
-                print(f"\n\tFuzzy Match Found for source: \n\t\t{s} \n\twith detail:\n\t\t{d} \n\twith Fuzzy Token Sort Ratio of {token_sort_ratio}!")
-                match = True
-                # You found a match, break out of the for loop
-                break
-
-        if not match: print(f"\n\tNo match found for {s}")
-
-    print(f"\n\t---------------------------------------------------------------")
-    print(f"\n\t---------------------------------------------------------------")
-
-
 def get_series_match(row_val, args=[]):
+    """
+    This function takes in the current value of the pandas series and lookup series cast as a list in args
+    The function iterates over the provided series in args and looks for a fuzzy match with the provided row_val
+    If a token sort match is found greater than or equal to a score of 50 that match value is returned 
+    """
 
     match_value = ''
     stdout_details = False
@@ -121,71 +74,19 @@ def get_series_match(row_val, args=[]):
 
     if not match_value:
         print(f"\n\tNo match found for {s}")
+        match_value = "No match found"
     else:
         print(match_value)
 
     return match_value
 
 
-# def get_values(row_val, **kwargs):
-
-#     data = kwargs['kwargs']
-
-#     print("+++++++++++++++++++++++++++++++++")
-#     # print(f"In get value function showing passed arguments \n{val} \n{kwargs} ")
-#     # print(f"\nval: \n{val}\n\n")
-#     # print(f"\n0: \n{data['addr']}")
-#     # print(f"\n1: \n{data['frame']['Address']}")
-#     # print(f"\n2: \n{data['frame'][data['col']]}")
-#     # print(f"\n3: \n{data['col']}")
-#     # print()
-
-#     match_value = ''
-#     stdout_details = True
-#     index = 0
-#     # print(f"args is {args} \n len of args is {len(args)}")
-
-#     for s in data['frame']['Address']:
-#         val = ''
-#         print(f"\tComparing row value {row_val} with series value {s}")
-#         if re.search(s, row_val , re.IGNORECASE):
-#             print(f"\tExact Match Found for row value {row_val} with series value {s}!")
-#             print(f"\t{data['frame'][data['col']]}")
-#             match_value = s
-#             val = data['frame'].loc[index, data['col']]
-#             index += 1
-#             # You found a match, break out of the for loop
-#             break
-
-#         # Assuming and exact match failed, proceed with the basic fuzzy wuzzy comparisons
-#         ratio = fuzz.ratio(s.lower(), row_val.lower())
-#         pratio = fuzz.partial_ratio(s.lower(), row_val.lower())
-#         token_sort_ratio = fuzz.token_sort_ratio(s.lower(), row_val.lower())
-#         if stdout_details:
-#             print(f"\t\tFuzzy Ratio: \t{ratio}")
-#             print(f"\t\tFuzzy Partial Ratio: \t{pratio}")
-#             print(f"\t\tFuzzy Token Sort Ratio: \t{token_sort_ratio} of type {type(token_sort_ratio)}")
-
-#         if token_sort_ratio >= 50:
-#             print(f"\n\tFuzzy Match Found for row: \n\t\t{row_val} \n\twith series value:\n\t\t{s} \n\twith Fuzzy Token Sort Ratio of {token_sort_ratio}!")
-#             match_value = s
-#             val = data['frame'].loc[index,data['col']]
-#             index += 1
-#             # You found a match, break out of the for loop
-#             break
-
-#     if not match_value:
-#         print(f"\n\tNo match found for {s}")
-#     else:
-#         print(match_value)
-#         print(f"Value: {val}")
-
-#     return match_value
-
-
 
 
 def main():
+
+    # Set a variable to enable print statements
+    stdout_details = True
 
     # Create a Data Frame from the Source Excel File
     df_src = df_from_excel(arguments.source_file)
@@ -193,63 +94,52 @@ def main():
     df_det = df_from_excel(arguments.detail_file)
 
     # Print the resulting data frames
-    # print(f"\nSource Data Frame from {arguments.source_file}")
-    # print(df_src)
-    # print(df_src.describe())
-    #
-    # print(f"\nDetails Data Frame from {arguments.detail_file}")
-    # print(df_det)
-    # print(df_det.describe())
+    if stdout_details:
+        print(f"\n=======================\nDisplay the two data frames...")
+        # Print the Source Data Frame
+        print(f"\nSource Data Frame from {arguments.source_file}")
+        print(df_src)
+        # print(df_src.describe())
+        print(f"Columns: {df_src.columns.values}")
 
-    # Series Comparison
-    # Extract Address columns (Series) for comparison
-    # Extract the Address Column of each data frame into its own Series for comparison
-    src_addr = df_src["Address"]
-    det_addr = df_det["Address"]
-    # Call Series Comparison Function
-    # series_compare(src_addr, det_addr, s1_desc="Source DSN Data", s2_desc="DSN Data Addtl Details", stdout_details=True)
+        # Print the Details data frame
+        print(f"\nDetails Data Frame from {arguments.detail_file}")
+        print(df_det)
+        # print(df_det.describe())
+        print(f"Columns: {df_det.columns.values}")
+        print(f"\n=======END of DATA FRAME DISPLAY================\n")
 
-    # series_compare(df_src["Complex"], df_det["Complex Name"], s1_desc="Source DSN Data", s2_desc="DSN Data Addtl Details", stdout_details=True)
-
-
-
-    # Data Frame Comparison
-    # print()
-    # # print(df_src.head())
-    # for series in df_src.itertuples():
-    #     print(series)
-    #     print(series[3])
-    #     # print(df_src['Address'])
-    #     for element in df_src['Address']:
-    #         print(element)
-    #
-    # pd.set_option('display.max_columns', None)
-
+    # Add a new column "Full_Address" to the Source data frame which has the "Address" information form the additional details data frame
+    # This new column will be used in the Pandas merge 
     df_src['Full_Address'] = df_src['Address'].apply(get_series_match, args=[df_det['Address']])
     # print(df_src)
-
-    # df_src['Complex Name'] = df_src['Address'].apply(get_values, kwargs={"addr": df_det['Address'], "frame": df_det, "col":'Complex Name'})
-
-    # df_src['Complex'] = df_src['Full_Address'].map(get_series_match(series=df_det['Address']))
-    # print(df_src)
-    # print()
-    # print(df_src['Full_Address'])
-    # print(df_det)
-
     #
-    df_merged = pd.merge(df_src, df_det[['Address','Complex Name','Postal Code', 'State_Province', 'URL']], left_on="Full_Address", right_on="Address", how="left")
+    # Create a new data frame df_merged which combines the src and det data frames and uses the "Full_Address" column in the source data frame and the
+    # "Address" column in the additional details data as keys to merge the data frames. 
+    # The "how" option tells the merge action to merge based on keys in the "left" or df_src data frame.  This is effectively saying look up all the rows in the left (df_src) data frame in the right (df_det) data frame
+    # The suffix option (default is suffixes=('_x', '_y')) will apply the suffix you provde so you the data frame origin of any duplicat columns
+    # df_merged = pd.merge(df_src, df_det[['Address','Complex Name','Postal Code', 'State_Province', 'URL']], left_on="Full_Address", right_on="Address", how="left", suffixes=('_src', '_det'))
+    df_merged = pd.merge(df_src, df_det, left_on="Full_Address", right_on="Address", how="left", suffixes=('_src', '_det'))
+    
     #
-    # pd.set_option('display.max_columns', None)
-    #
-    print()
-    print(df_merged[["Complex Name", "Full_Address", "URL"]])
+    if stdout_details:
+        # Set the display options so that all columns print
+        pd.set_option('display.max_columns', None)
+        print(f"\n\n+++++++++++++++++++++++++++\n++++ Merged Data Frames\n")
+        print(df_merged)
+        print("\n\n++++ Display Key Columns Only\n")
+        print(df_merged[["Complex Name", "Full_Address", "URL"]])
+        print(f"\n+++++++++++END OF MERGED DISPLAY++++++++++++++++\n")
 
+    # Save output to an Excel file
+    all_data_fn = "DSN_Complex_Lists_COMBINED"
+    cwd = os.getcwd()
+    df_merged.to_excel(f"{all_data_fn}.xlsx")
+    df_merged.to_json(f"{all_data_fn}.json", orient="records")
 
-    # result = pd.concat([df_src,df_det], join='outer', ignore_index=True, sort=False)
-    #
-    # print()
-    # print(result)
-
+    print(f"\nJSON file {all_data_fn}.json")
+    print(f"\nExcel file {all_data_fn}.xlsx")
+    print(f"\nSAVED in: {cwd}\n")
 
 # Standard call to the main() function.
 if __name__ == '__main__':
