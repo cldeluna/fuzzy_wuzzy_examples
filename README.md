@@ -1,6 +1,6 @@
 # FuzzyWuzzy was a Python Module
 
-## An example of using the fuzzywuzzy module to match data sets.
+## An example of using the fuzzywuzzy module to match data sets with similar but not exact data
 
 I was recently given a list of locations that I had to analyze.
 
@@ -16,7 +16,7 @@ As I drilled down into the actual data, what I saw immediately derailed my origi
 
 As ever, Google to the rescue and enter the **[fuzzywuzzy](https://pypi.org/project/fuzzywuzzy/)** python module.
 
-## Bad Data
+## The Same Column but NOT the Same Data
 
 Lets look at the data first:
 
@@ -173,6 +173,10 @@ match_value is 93 Goldstone Rd (Ft. Irwin)
 Line 66 performs the critical test.  I knew from looking at all the ration values that token_sort_ration was what I wanted to use in my logic test and by looking at the ratios or scores I knew that a score of 50 or better got me a good match.  The rest is just like the exact match test.  I set the match_value and break out of the loop.
 
 Line 78 returns the **match_value** back to the calling statement and inserted that value into the new column in the appropriate row. Note that in line 74 if **match_value** never gets set in the **for** loop (the search), that means a match could not be made and so it gets set to "No match found".
+
+
+
+[Video Overview](https://vimeo.com/401951545) ~12 minutes
 
 
 
