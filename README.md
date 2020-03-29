@@ -179,23 +179,14 @@ Line 78 returns the **match_value** back to the calling statement and inserted t
 
 ## Helpful Links
 
-How this module came to be 
-https://chairnerd.seatgeek.com/fuzzywuzzy-fuzzy-string-matching-in-python/
+- [How this module came to be](https://chairnerd.seatgeek.com/fuzzywuzzy-fuzzy-string-matching-in-python/) (This is a good read...check it out)
+- [FuzzyWussy on PyPi](https://pypi.org/project/fuzzywuzzy/)
 
-PiPy
-https://pypi.org/project/fuzzywuzzy/
+- [GeeksforGeeks FuzzyWuzzy Python library](https://www.geeksforgeeks.org/fuzzywuzzy-python-library/)
 
-GeeksforGeeks FuzzyWuzzy Python library
-https://www.geeksforgeeks.org/fuzzywuzzy-python-library/
+- [Data Camp - Fuzzy String Python](https://www.datacamp.com/community/tutorials/fuzzy-string-python)
 
-Data Camp
-https://www.datacamp.com/community/tutorials/fuzzy-string-python
+- [Combining Datasets with Fuzzy Matching by Roland Jeannier](https://medium.com/@rtjeannier/combining-data-sets-with-fuzzy-matching-17efcb510ab2)
 
-Combining Datasets with Fuzzy Matching by Roland Jeannier
-https://medium.com/@rtjeannier/combining-data-sets-with-fuzzy-matching-17efcb510ab2
+- [Pandas for Network Engineers (Who doesn’t love Pandas? )](https://gratuitous-arp.net/pandas-for-network-engineers-who-doesnt-love-pandas/)
 
-
-
-Pandas for Network Engineers (Who doesn’t love Pandas? )
-
-https://gratuitous-arp.net/pandas-for-network-engineers-who-doesnt-love-pandas/
