@@ -1,6 +1,6 @@
 # FuzzyWuzzy was a Python Module
 
-## An example of using the fuzzywuzzy module to match data sets with similar but not exact data
+## An example of using the fuzzywuzzy Python module to match data sets with similar but not exact data
 
 I was recently given a list of locations that I had to analyze.
 
@@ -109,7 +109,7 @@ I will be the first to admit this is in no way elegant or "pythonic" but I'm not
 
 **Line 44** sets an empty variable to hold the **match value** (the address from the detail data frame).
 
-The **args** variable is defined as a list and it has the column values from the detail data frame "Address" column so that we can iterate through that list looking for the specific **row_val**.   Specifically the row_val passed to the function will be compared agains this list of addresses from the detail data frame, **df_det['Address']** :
+The **args** variable is defined as a list and it has the column values from the detail data frame "Address" column so that we can iterate through that list looking for the specific **row_val**.   Specifically the row_val passed to the function will be compared against this list of addresses from the detail data frame, **df_det['Address']** :
 
 ```python
                                             Address  
@@ -182,7 +182,7 @@ match_value is 93 Goldstone Rd (Ft. Irwin)
 
 
 
-[Video Overview](https://vimeo.com/401951545) ~12 minutes
+<img src="/Users/claudia/Dropbox (Indigo Wire Networks)/scripts/python/2020/fuzzy_wuzzy_examples/images/vimeo-transparent.jpeg" alt="Vimeo" style="zoom:15%;" />[Video Overview](https://vimeo.com/401951545) ~12 minutes 
 
 
 
