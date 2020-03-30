@@ -16,7 +16,7 @@ As I drilled down into the actual data, what I saw immediately derailed my origi
 | ------------------------------ | -------------------------------- |
 | Fort Irwin Military Base       | 93 Goldstone Rd (Ft. Irwin)      |
 
-As ever, Google to the rescue and enter the **[fuzzywuzzy](https://pypi.org/project/fuzzywuzzy/)** python module.
+As ever, Google to the rescue and enter the **[fuzzywuzzy](https://pypi.org/project/fuzzywuzzy/)** Python module.
 
 ## The Same Column but NOT the Same Data
 
@@ -85,7 +85,7 @@ That is an overview of the entire process.
 
 ------
 
-## The get_series_match Function
+## The get_series_match Function and FuzzyWuzzy
 
 The real magic is in the **get_series_match** function that is used to build the new "Full_Address" column in the original data set, **df_src**.  
 
@@ -125,7 +125,7 @@ The **args** variable is defined as a list and it has the column values from the
 
 **Lines 58 - 60** are executed if we don't find an exact match.  In reality, to make this shorter I would remove the exact match test (lines 51 - 56) but I left it in as an example of what I tried to do initially.  
 
-These 3 variables hold a ratio or "score" of how closely the two address values matched given different algorithms available in the fuzzywuzzy module.  Each algorithm has a sweet spot.  I try all three and see what gets me closest to what I need.  In this case, with this data, token_sort_ration worked best (gave me the consistently higher score).
+These 3 variables hold a ratio or "score" of how closely the two address values matched given different algorithms available in the fuzzywuzzy module.  Each algorithm has a sweet spot.  I try these three and see what gets me closest to what I need.  In this case, with this data, token_sort_ration worked best (gave me the consistently higher score).
 
 
 

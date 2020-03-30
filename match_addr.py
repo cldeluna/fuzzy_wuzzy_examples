@@ -52,7 +52,7 @@ def get_series_match(row_val, args=[]):
             if stdout_details:
                 print(f"\tExact Match Found for row value {row_val} with series value {s}!")
             match_value = s
-            # You found a match, break out of the for loop
+            # You found an exact match, break out of the for loop
             break
         # Assuming and exact match failed, proceed with the basic fuzzy wuzzy comparisons
         ratio = fuzz.ratio(s.lower(), row_val.lower())
